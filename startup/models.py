@@ -40,3 +40,48 @@ class Startup(models.Model):
         Used in Elasticsearch indexing.
         """
         return [key.first_name + key.last_name for key in self.investors.all()]
+    
+class StartupAi(models.Model):
+    startup = models.ForeignKey(Startup, on_delete=models.CASCADE, related_name='created_startups')
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+    labels = models.CharField(max_length=255)
+    age_first_funding_year = models.IntegerField()
+    age_last_funding_year = models.IntegerField()
+    age_first_milestone_year = models.IntegerField()
+    age_last_milestone_year = models.IntegerField()
+    relationships = models.IntegerField()
+    funding_rounds = models.IntegerField()
+    funding_total_usd = models.FloatField()
+    milestones = models.IntegerField()
+    is_CA = models.BooleanField()
+    is_NY = models.BooleanField()
+    is_MA = models.BooleanField()
+    is_TX = models.BooleanField()
+    is_otherstate = models.BooleanField()
+    category_code = models.CharField(max_length=255)
+    is_software = models.BooleanField()
+    is_web = models.BooleanField()
+    is_mobile = models.BooleanField()
+    is_enterprise = models.BooleanField()
+    is_advertising = models.BooleanField()
+    is_gamesvideo = models.BooleanField()
+    is_ecommerce = models.BooleanField()
+    is_biotech = models.BooleanField()
+    is_consulting = models.BooleanField()
+    is_othercategory = models.BooleanField()
+    has_VC = models.BooleanField()
+    has_angel = models.BooleanField()
+    has_roundA = models.BooleanField()
+    has_roundB = models.BooleanField()
+    has_roundC = models.BooleanField()
+    has_roundD = models.BooleanField()
+    avg_participants = models.FloatField()
+    is_top500 = models.BooleanField()
+
+    def __str__(self):
+        return f'{self.labels} - {self.category_code}'
+
+
+    
+    
