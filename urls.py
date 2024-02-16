@@ -19,10 +19,14 @@ from django.urls import include, path, re_path
 
 from user import urls as user_urls
 from fcm import urls as fcm_urls
+from search_indexes import urls as index_urls
+from startup import urls as startup_urls
 
 apipatterns = [
     re_path(r'^user/?', include(user_urls)),
     re_path(r'^fcm/?', include(fcm_urls)),
+    re_path(r'^search/?', include(index_urls)),
+    re_path(r'^startup/?', include(startup_urls)),
 ]
 
 urlpatterns = [

@@ -43,7 +43,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'user',
-    'fcm_django'
+    'fcm_django',
+    'startup',
+    'search_indexes'
 ]
 
 MIDDLEWARE = [
