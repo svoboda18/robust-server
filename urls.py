@@ -18,9 +18,11 @@ from django.contrib import admin
 from django.urls import include, path, re_path
 
 from user import urls as user_urls
+from fcm import urls as fcm_urls
 
 apipatterns = [
     re_path(r'^user/?', include(user_urls)),
+    re_path(r'^fcm/?', include(fcm_urls)),
 ]
 
 urlpatterns = [

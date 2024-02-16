@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'user',
+    'fcm_django'
 ]
 
 MIDDLEWARE = [
@@ -111,6 +112,17 @@ SIMPLE_JWT = {
     "UPDATE_LAST_LOGIN": True,
 
     "ALGORITHM": "HS256",
+}
+
+FIREBASE_CONFIG = BASE_DIR / 'firebase.json'
+FIREBASE_APP = initialize_app()
+# To learn more, visit the docs here:
+# https://cloud.google.com/docs/authentication/getting-started>
+
+FCM_DJANGO_SETTINGS = {
+    "APP_VERBOSE_NAME": 'sequanch',
+    "ONE_DEVICE_PER_USER": True,
+    "DELETE_INACTIVE_DEVICES": True,
 }
 
 # Password validation
