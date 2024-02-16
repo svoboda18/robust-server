@@ -1,0 +1,7 @@
+{
+  "name": "Robustup Platform",
+  "dockerComposeFile": "docker-compose.yml",
+  "workspaceFolder": "/robustup-frontend",
+  "service": "robustup-frontend",
+  "forwardPorts": [8000]
+}
