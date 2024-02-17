@@ -8,7 +8,8 @@ class Startup(models.Model):
     status_choices = [
         ('pending', 'Pending'),
         ('decline', 'Decline'),
-        ('closed', 'Closed')
+        ('closed', 'Closed'),
+        ('ai-approved','AiApproved'),
     ]
     status = models.CharField(max_length=20, choices=status_choices, blank=True)
     description = models.TextField()
@@ -27,7 +28,7 @@ class Startup(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.title
+        return self.name
 
     class Meta:
         """Meta options."""

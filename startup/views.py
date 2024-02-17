@@ -1,16 +1,23 @@
+import json
+import numpy as np
+import pandas as pd
 from rest_framework.viewsets import ModelViewSet
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
 from fcm_django.models import FCMDevice
+import tensorflow as tf
 
 from startup.models import Startup
 from firebase_admin.messaging import Notification, Message
 
-from startup.serializers import StartupIDSerializer, StartupSerializer
+from startup.serializers import StartupIDSerializer, StartupSerializer,  StartupAiSerializer
+
+from settings import BASE_DIR
 from startup.models import Startup
 
-import google.generativeai as genai
+# import google.generativeai as genai
 
 class StartupViewSet(ModelViewSet):
     serializer_class = StartupSerializer
@@ -58,3 +65,52 @@ class ApplyMentorshipView(APIView):
         if device:
             device.send_message(Message(notification=Notification(title=notification_title, body=notification_body)))
         return Response({"message": "Mentorship added"}, status=200)
+class AiConsulting(APIView):
+    serializer_class = StartupAiSerializer
+    permission_classes = (AllowAny,)
+    def post(self,request):    
+        model = tf.keras.models.load_model('C:/Users/acer/Desktop/CoEscape/my_saved_model')           
+        # try:
+        # serializer = self.serializer_class(data=request.data) 
+        # serializer.is_valid()
+        #     print(serializer.is_valid())
+        #     print('serializer is validated')
+        # print(serializer.validated_data)
+        #     df = pd.DataFrame(data)                    
+        
+        # except Exception as e:
+        #     print('looooooooooool')
+        #     return Response(e)    
+        json_data = request.body.decode('utf-8')
+        json_data_dict = json.loads(json_data)
+        json_data_dict['labels'] = 1 if (json_data_dict.get('labels')) else 0
+        json_data_dict['category_code'] = 1 if (json_data_dict.get('category_code')) else 0
+
+        for key in json_data_dict:
+            if (isinstance(json_data_dict[key], bool)):  json_data_dict[key] = 1 if json_data_dict[key] else 0
+        id = json_data_dict.pop('startup')
+        print(json_data_dict)
+        numpy_array = np.array(list(json_data_dict.values()))
+        numpy_array = numpy_array.reshape(1, -1)
+
+        print(numpy_array)
+
+        df = pd.DataFrame.from_records([json_data_dict.values()])
+        result = model.predict(numpy_array)
+        startup = Startup.objects.all().filter(id = id ).first()
+        startup.status = 'ai-approved' if result else 'closed'
+        startup.save()
+
+        return Response({startup.status})  
+
+# example_data = np.array([0.53000151, 1.29700817, -1.35536136, -0.63177276, -1.05000483, -0.83929656,
+        #                                 -1.12828503, -0.78160911, -0.19364912, -0.64589369, -0.64374518, -1.02835207,
+        #                                 -0.36305674, -0.3086067, -0.23608834, 1.83066965, -1.58658548, -0.46871843,
+        #                                 -0.42133542, -0.29637449, -0.29326332, -0.26075538, -0.23608834, -0.16466098,
+        #                                 -0.19245009, -0.06841189, 1.43759058, -0.67846699, 1.71782428, -1.02516116,
+        #                                 -0.79396458, -0.53425569, -0.32346749, -0.99218086, -1.97889629])
+        # example_data = example_data.reshape(1, -1)            
+        # print( model.predict(example_data)) 
+
+
+
