@@ -10,7 +10,7 @@ class Startup(models.Model):
         ('decline', 'Decline'),
         ('closed', 'Closed')
     ]
-    status = models.CharField(max_length=20, choices=status_choices)
+    status = models.CharField(max_length=20, choices=status_choices, blank=True)
     description = models.TextField()
     start_date = models.DateField(null=True)
     website = models.URLField(max_length=200, null=True, blank=True)
@@ -18,9 +18,10 @@ class Startup(models.Model):
     founder = models.CharField(max_length=100, null=True, blank=True)
     headquarters = models.CharField(max_length=255, null=True, blank=True)
     funding_amount = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
-    investors = models.ManyToManyField(User, related_name='investments', blank=True)
+    investments_total = models.FloatField(blank=True, null=True)
+    mentors = models.ManyToManyField(User, related_name='startups', blank=True)
     rating = models.IntegerField(default=5)
-    creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_startups')
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_startups', blank=True)
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

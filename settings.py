@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'user',
     'fcm_django',
+    'fcm',
     'startup',
     'search_indexes'
 ]
@@ -125,6 +126,13 @@ FCM_DJANGO_SETTINGS = {
     "APP_VERBOSE_NAME": 'sequanch',
     "ONE_DEVICE_PER_USER": True,
     "DELETE_INACTIVE_DEVICES": True,
+}
+
+# Elasticsearch DSL settings
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'http://elasticsearch:9200',
+    }
 }
 
 # Password validation

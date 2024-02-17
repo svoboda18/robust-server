@@ -24,4 +24,3 @@ class FCMDeviceView(APIView):
                 return Response({"message": "FCMDevice updated successfully"}, status=status.HTTP_200_OK)
         else:
             return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
-
