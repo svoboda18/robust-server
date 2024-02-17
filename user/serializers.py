@@ -14,7 +14,7 @@ class UserSerializer(serializers.ModelSerializer):
 """
 class UserRegistrationSerializer(serializers.ModelSerializer):
 	password = serializers.CharField(max_length=100, min_length=3, required=True)
-	is_mentor = serializers.BooleanField(blank=True, default=False)
+	is_mentor = serializers.BooleanField(default=False)
 
 	class Meta:
 		model = get_user_model()
