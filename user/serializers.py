@@ -14,10 +14,11 @@ class UserSerializer(serializers.ModelSerializer):
 """
 class UserRegistrationSerializer(serializers.ModelSerializer):
 	password = serializers.CharField(max_length=100, min_length=3, required=True)
+	is_mentor = serializers.BooleanField(blank=True, default=False)
 
 	class Meta:
 		model = get_user_model()
-		fields = ['username', 'password']
+		fields = ['username', 'password', 'is_mentor']
 
 	def create(self, validated_data):
 		user_password = validated_data.get('password', None)
