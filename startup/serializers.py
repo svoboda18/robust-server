@@ -1,5 +1,5 @@
+from startup.models import Startup , StartupAi
 from fcm_django.models import FCMDevice
-from startup.models import Startup
 
 from rest_framework.serializers import Serializer, ModelSerializer, CharField, ValidationError
 from rest_framework.fields import CurrentUserDefault
@@ -37,3 +37,11 @@ class StartupSerializer(ModelSerializer):
 class StartupIDSerializer(Serializer):
     startup = CharField(required=True)
 
+class StartupAiSerializer(ModelSerializer):
+    def update(self, instance, validated_data):
+      return super().update(instance, validated_data)
+    class Meta:
+      model = StartupAi
+      fields = (
+          '__all__'
+      )        
